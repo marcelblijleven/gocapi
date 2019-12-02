@@ -47,6 +47,5 @@ func (a Authentication) Authenticate() error {
 	json.NewDecoder(res.Body).Decode(authResponse)
 
 	a.Client.Authentication.Token = fmt.Sprintf("Bearer %v", authResponse.AccessToken)
-
 	return nil
 }

@@ -17,6 +17,7 @@ type Client struct {
 	httpClient http.Client
 
 	Authentication *Authentication
+	CodeVersion    *CodeVersionService
 }
 
 // NewClient creates a new Client with credentials stored in env variables
@@ -43,6 +44,7 @@ func NewClient(httpClient http.Client) (*Client, error) {
 	}
 
 	c.Authentication = &Authentication{Client: c}
+	c.CodeVersion = &CodeVersionService{Client: c}
 	return c, nil
 }
 
@@ -62,7 +64,10 @@ func (c Client) CreateRequest(method, endpoint string, body io.Reader) (*http.Re
 		return nil, err
 	}
 
-	req.Header.Add("Authorization", c.Authentication.Token)
+	if len(c.Authentication.Token) != 0 {
+		req.Header.Add("Authorization", c.Authentication.Token)
+	}
+
 	req.Header.Add("Content-Type", "application/json")
 
 	return req, err
