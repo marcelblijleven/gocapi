@@ -2,29 +2,30 @@ package gocapi
 
 import (
 	"errors"
-	"gocapi/util"
 )
 
+// Client is used to interact with the ocapi endpoints
 type Client struct {
-	BaseUrl  string
+	BaseURL  string
 	Username string
 	Password string
-	ClientId string
+	ClientID string
 	Secret   string
 }
 
+// NewClient creates a new Client with credentials stored in env variables
 func NewClient() (*Client, error) {
-	c := util.NewCredentials()
+	c := NewCredentials()
 
 	if len(c.BaseUrl) == 0 {
 		return nil, errors.New("Base url is required")
 	}
 
 	return &Client{
-		BaseUrl:  c.BaseUrl,
+		BaseURL:  c.BaseUrl,
 		Username: c.Username,
 		Password: c.Password,
-		ClientId: c.ClientId,
+		ClientID: c.ClientId,
 		Secret:   c.Secret,
 	}, nil
 }
